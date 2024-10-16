@@ -17,12 +17,14 @@ namespace ChatApp.Controllers
         private readonly IRoomChatRepository roomChatRepository;
         private readonly IMessageRepositiory messageRepositiory;
         private readonly IChatRoomRepository chatRoomRepository;
+        private readonly IRoomChatMessagesRepository roomChatMessagesRepository;
 
-        public RoomChatController(IRoomChatRepository _roomChatRepository,IMessageRepositiory _messageRepositiory,IChatRoomRepository _chatRoomRepository)
+        public RoomChatController(IRoomChatRepository _roomChatRepository,IMessageRepositiory _messageRepositiory,IChatRoomRepository _chatRoomRepository,IRoomChatMessagesRepository roomChatMessagesRepository )
         {
             roomChatRepository = _roomChatRepository;
             messageRepositiory = _messageRepositiory;
             chatRoomRepository = _chatRoomRepository;
+            this.roomChatMessagesRepository = roomChatMessagesRepository;
         }
 
         // GET: api/<RoomChatController>
@@ -72,6 +74,24 @@ namespace ChatApp.Controllers
             }
             return response;
         }
+        [HttpGet("{id}/{id2}")]
+        public ActionResult<APIResponse<Roomchat>> Get(int id,string id2)
+        {
+            APIResponse<Roomchat> response = new();
+            try
+            {
+                Roomchat model = roomChatRepository.Get(id,id2);
+
+                response.Response = model; 
+            }
+            catch (Exception e)
+            {
+
+                response.Errors.Add(e.Message);
+            }
+            return response;
+        }
+
 
         private List<RoomChatDisplaymodel> convertToDisplayModel(List<Roomchat> roomchats)
         {
@@ -80,7 +100,9 @@ namespace ChatApp.Controllers
                 return new RoomChatDisplaymodel() { Id = RC.Id, ChatRoom =  new ChatRoomDisplayModel.Response()
                 {
                     Id=room.Id,AdminId=room.AdminId,Bio=room.Bio,Name=room.Name,FilePath=room.FilePath,Image= room.FilePath == "No file" ? null : String.Format("{0}://{1}{2}/{3}", Request.Scheme, Request.Host, Request.PathBase, room.FilePath)
-                }, LastMessage = messageRepositiory.Get(RC.LastMessageID) }; }).OrderBy(rc=>rc.LastMessage.Time).ToList();
+                }, LastMessage = messageRepositiory.Get(RC.LastMessageID)
+                ,  UnreadMessages = messageRepositiory.GetMessages(roomChatMessagesRepository.Get(RC.Id).Select(CM => CM.MessageId).ToList()).Where(M => M.Viewed == false).Count()
+                }; }).OrderByDescending(rc=>rc.LastMessage.Time).ToList();
         }
 
         // POST api/<RoomChatController>

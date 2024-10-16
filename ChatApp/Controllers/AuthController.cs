@@ -244,6 +244,7 @@ namespace ChatApp.Controllers
 
             if (user!=null)
             {
+                user.Image = user.FilePath == "No file" ? null : String.Format("{0}://{1}{2}/{3}", Request.Scheme, Request.Host, Request.PathBase, user.FilePath);
                 response.Response = user;
 
             }

@@ -73,6 +73,7 @@ builder.Services.AddScoped<IChatRoomMembershipRepository, ChatRoomMembershipRepo
 builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 builder.Services.AddScoped<IInviteRepository, InviteRepository>();
 builder.Services.AddScoped<IRoomChatRepository, RoomChatRepository>();
+builder.Services.AddScoped<IRoomChatMessagesRepository, RoomChatMessageRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IStatusViewRepository, StatusViewRepository>();
 builder.Services.AddSingleton<IDictionary<string,string>>(opts => new Dictionary<string,string>());

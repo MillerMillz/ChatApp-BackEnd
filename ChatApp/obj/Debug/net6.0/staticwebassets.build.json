@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WcXByEm3DVJaVgMRiB9863UzT27pnS/KQbkM1KnzehY=",
+  "Hash": "uFFBU3XqgUQzrq2R5vupj1N2kPWVg7z7r77ugoX+nhI=",
   "Source": "ChatApp",
   "BasePath": "_content/ChatApp",
   "Mode": "Default",
@@ -17,6 +17,40 @@
   ],
   "Assets": [
     {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\02910845-c388-4400-a7f4-eca8cae59e16_shikabala.jfif",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/02910845-c388-4400-a7f4-eca8cae59e16_shikabala.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\02910845-c388-4400-a7f4-eca8cae59e16_shikabala.jfif"
+    },
+    {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\0796f9a3-110d-4593-af7c-2b35328ada4b_delphi.png",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/0796f9a3-110d-4593-af7c-2b35328ada4b_delphi.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\0796f9a3-110d-4593-af7c-2b35328ada4b_delphi.png"
+    },
+    {
       "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\14284388-e83e-4afc-b1c4-15f6fcb307e5_pexels-kevin-ku-92347-577585.jpg",
       "SourceId": "ChatApp",
       "SourceType": "Discovered",
@@ -32,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\DisplayPictures\\14284388-e83e-4afc-b1c4-15f6fcb307e5_pexels-kevin-ku-92347-577585.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\16e51171-2f19-49b2-be2b-76356fa34d6a_download.jfif",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/16e51171-2f19-49b2-be2b-76356fa34d6a_download.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\16e51171-2f19-49b2-be2b-76356fa34d6a_download.jfif"
     },
     {
       "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\1f7ac91e-d08d-4ffa-910f-aaad54ab2dcc_IMG-20220505-WA0050(1).jpg",
@@ -102,6 +153,23 @@
       "OriginalItemSpec": "wwwroot\\DisplayPictures\\672b0e9f-9a2f-4d20-b04b-58137b1213ab_pexels-kevin-ku-92347-577585.jpg"
     },
     {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\76b7d971-1d80-40c0-a6f8-c4ba54dd5d47_shikabala.jfif",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/76b7d971-1d80-40c0-a6f8-c4ba54dd5d47_shikabala.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\76b7d971-1d80-40c0-a6f8-c4ba54dd5d47_shikabala.jfif"
+    },
+    {
       "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\8930067a-d951-45fa-b47e-914faf04e43a_pexels-kevin-ku-92347-577585.jpg",
       "SourceId": "ChatApp",
       "SourceType": "Discovered",
@@ -117,6 +185,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\DisplayPictures\\8930067a-d951-45fa-b47e-914faf04e43a_pexels-kevin-ku-92347-577585.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\902ba6b7-d9f5-4860-8f0f-ce9c71bcc212_LogoC#.png",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/902ba6b7-d9f5-4860-8f0f-ce9c71bcc212_LogoC#.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\902ba6b7-d9f5-4860-8f0f-ce9c71bcc212_LogoC#.png"
     },
     {
       "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\9b8216b3-404d-454d-9048-9e04082c3a89_C++.png",
@@ -168,6 +253,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\DisplayPictures\\afd07c6f-9e2c-4857-aadf-713431eba2d0_pexels-kevin-ku-92347-577585.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\b0e784a6-3d46-422d-af51-e6147bf96438_shikabala.jfif",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/b0e784a6-3d46-422d-af51-e6147bf96438_shikabala.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\b0e784a6-3d46-422d-af51-e6147bf96438_shikabala.jfif"
+    },
+    {
+      "Identity": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\DisplayPictures\\f202a801-5bd8-457a-8da5-c430713e0500_shikabala.jfif",
+      "SourceId": "ChatApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\millz\\Desktop\\ChatApp\\BackEnd\\ChatApp\\ChatApp\\wwwroot\\",
+      "BasePath": "_content/ChatApp",
+      "RelativePath": "DisplayPictures/f202a801-5bd8-457a-8da5-c430713e0500_shikabala.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\DisplayPictures\\f202a801-5bd8-457a-8da5-c430713e0500_shikabala.jfif"
     }
   ]
 }

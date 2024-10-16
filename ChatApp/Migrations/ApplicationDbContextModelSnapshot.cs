@@ -233,7 +233,7 @@ namespace ChatApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Time")
+                    b.Property<DateTime?>("Time")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User1ID")
@@ -265,7 +265,7 @@ namespace ChatApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Time")
+                    b.Property<DateTime?>("Time")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -330,6 +330,25 @@ namespace ChatApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roomchats");
+                });
+
+            modelBuilder.Entity("ChatApp.Models.RoomChatMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomChatId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoomChatMessages");
                 });
 
             modelBuilder.Entity("ChatApp.Models.Status", b =>

@@ -5,5 +5,6 @@
         public int Id { get; set; }
         public ChatRoomDisplayModel.Response ChatRoom { get; set; }
         public Message LastMessage { get; set; }
+        public int UnreadMessages { get; set; }
     }
 }

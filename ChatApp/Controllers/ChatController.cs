@@ -65,7 +65,22 @@ namespace ChatApp.Controllers
             }
             return ret.OrderByDescending(CDM=>CDM.LastMessage.Time).ToList();
         }
+        [HttpGet("friend/{id}")]
+        public async Task<APIResponse<Chat>> Get(string id)
+        {
+            APIResponse<Chat> response = new APIResponse<Chat>();
+            try
+            {
+                string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
+                response.Response = chatRepository.Get(userId, id);
+            }
+            catch (Exception e)
+            {
 
+                response.Errors.Add(e.Message);
+            }
+            return response;
+        }
 
         [HttpGet("{id}")]
         public async Task<APIResponse<ChatDisplayModel>> Get(int id)
@@ -99,10 +114,10 @@ namespace ChatApp.Controllers
             APIResponse<List<Chat>> response = new APIResponse<List<Chat>>();
             try
             {
-                List<Chat> userChats = chatRepository.Get(chat.ownerId, chat.FriendId);
-                List<Chat> friendChats = chatRepository.Get(chat.FriendId, chat.ownerId);
-                Chat userChat = userChats.Count == 0 ? chatRepository.Create(new Chat() { LastMessageID = chat.LastMessageID, FriendId = chat.FriendId, ownerId = chat.ownerId }) : userChats[0];
-                Chat friendChat = friendChats.Count == 0 ? chatRepository.Create(new Chat() { LastMessageID = chat.LastMessageID, FriendId = chat.ownerId, ownerId = chat.FriendId }) : friendChats[0];
+                Chat userChat1 = chatRepository.Get(chat.ownerId, chat.FriendId);
+                Chat friendChat1 = chatRepository.Get(chat.FriendId, chat.ownerId);
+                Chat userChat = userChat1 == null ? chatRepository.Create(new Chat() { LastMessageID = chat.LastMessageID, FriendId = chat.FriendId, ownerId = chat.ownerId }) : userChat1;
+                Chat friendChat = friendChat1 == null ? chatRepository.Create(new Chat() { LastMessageID = chat.LastMessageID, FriendId = chat.ownerId, ownerId = chat.FriendId }) : friendChat1;
 
                 response.Response = new List<Chat>() { userChat, friendChat };
             }

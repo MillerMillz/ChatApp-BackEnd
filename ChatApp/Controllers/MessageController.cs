@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
 
 namespace ChatApp.Controllers
 {
@@ -21,8 +22,9 @@ namespace ChatApp.Controllers
         private readonly IRoomChatRepository roomChatRepository;
         private readonly IChatRoomRepository chatRoomRepository;
         private readonly IChatRepository chatRepository;
+        private readonly IRoomChatMessagesRepository roomChatMessagesRepository;
 
-        public MessageController(IMessageRepositiory _messageRepository,IChatMessageRepository _chatMessageRepository, UserManager<ApplicationUser> _userManager,IHubContext<ChatHub> hubContext,IRoomChatRepository roomChatRepository,IChatRoomRepository chatRoomRepository,IChatRepository chatRepository)
+        public MessageController(IMessageRepositiory _messageRepository,IChatMessageRepository _chatMessageRepository, UserManager<ApplicationUser> _userManager,IHubContext<ChatHub> hubContext,IRoomChatRepository roomChatRepository,IChatRoomRepository chatRoomRepository,IChatRepository chatRepository,IRoomChatMessagesRepository roomChatMessagesRepository)
         {
             messageRepository = _messageRepository;
             chatMessageRepository = _chatMessageRepository;
@@ -31,6 +33,7 @@ namespace ChatApp.Controllers
             this.roomChatRepository = roomChatRepository;
             this.chatRoomRepository = chatRoomRepository;
             this.chatRepository = chatRepository;
+            this.roomChatMessagesRepository = roomChatMessagesRepository;
         }
        
         [HttpGet("{id}")]
@@ -46,6 +49,23 @@ namespace ChatApp.Controllers
             catch(Exception e)
             {
                 
+                response.Errors.Add(e.Message);
+                return response;
+            }
+        }
+        [HttpGet("RoomMessages/{id}")]
+        public async Task<APIResponse<List<MessageDisplayModel>>> GetRoomMessages(int id)
+        {
+            APIResponse<List<MessageDisplayModel>> response = new APIResponse<List<MessageDisplayModel>>();
+            try
+            {
+                List<int> idz = roomChatMessagesRepository.Get(id).Select(CM => CM.MessageId).ToList();
+                response.Response = await AddUser(messageRepository.GetMessages(idz));
+                return response;
+            }
+            catch (Exception e)
+            {
+
                 response.Errors.Add(e.Message);
                 return response;
             }
@@ -73,14 +93,22 @@ namespace ChatApp.Controllers
             }
             return(list);
         }
-        [HttpPut("{id}")]
-        public async Task<APIResponse<List<Message>>> Put(int id)
+        [HttpPut("{id}/{isGroupChat}")]
+        public async Task<APIResponse<List<Message>>> Put(int id,bool isGroupChat)
         {
             APIResponse<List<Message>> response = new();
             try
             {
                 Chat chat = chatRepository.Get(id);
-                List<int> idz = chatMessageRepository.GetChatMessagesByChatId(id).Select(CM => CM.MessageId).ToList();
+                List<int> idz = new List<int>();
+                if(isGroupChat)
+                {
+                    idz = roomChatMessagesRepository.Get(id).Select(CM => CM.MessageId).ToList();
+                }
+                else
+                {
+                    idz = chatMessageRepository.GetChatMessagesByChatId(id).Select(CM => CM.MessageId).ToList();
+                }
                 List <Message> edit = messageRepository.GetMessages(idz).Where(M => M.Viewed == false).ToList();
                
                 foreach(Message m in edit)
@@ -88,7 +116,14 @@ namespace ChatApp.Controllers
                     m.Viewed = true;
                 }
                 response.Response = messageRepository.Edit(edit);
-                await hubContext.Clients.User(chat.FriendId).SendAsync("RecieveMessage", DateTime.Now.ToString(), "Messages");
+                if (isGroupChat)
+                {
+                   // await hubContext.Clients.Group(chat.FriendId).SendAsync("RecieveMessage", DateTime.Now.ToString(), "Messages");
+                }
+                else
+                {
+                    await hubContext.Clients.User(chat.FriendId).SendAsync("RecieveMessage", DateTime.Now.ToString(), "Messages");
+                }
 
             }
             catch (Exception e)
@@ -113,15 +148,28 @@ namespace ChatApp.Controllers
             }
             return response;
         }
-        [HttpPost("{id}")]
-        public async Task<APIResponse<MessageDisplayModel>> Post(int id,[FromBody] Message message)
+        [HttpPost("{id}/{isNew}")]
+        public async Task<APIResponse<MessageDisplayModel>> Post(int id,bool isNew,[FromBody] Message message)
         {
             APIResponse<MessageDisplayModel> response = new();
             try
             {
-                Roomchat roomchat = roomChatRepository.Get(id);
-                ChatRoom chatRoom = chatRoomRepository.GetChatRoom(roomchat.RoomID);
-                Message mes = messageRepository.AddMessage(message, id);
+                string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
+                Roomchat roomchat;
+                ChatRoom chatRoom;
+                Message mes;
+                if(isNew)
+                { 
+                    chatRoom = chatRoomRepository.GetChatRoom(id);
+                    mes = messageRepository.AddMessage(message, chatRoom.Id, new Roomchat() { OwnerId=userId,RoomID=id});
+                }
+                else
+                {
+                    roomchat = roomChatRepository.Get(id);
+                     chatRoom = chatRoomRepository.GetChatRoom(roomchat.RoomID);
+                     mes = messageRepository.AddMessage(message, chatRoom.Id,roomchat);
+                }
+               
                 response.Response = new MessageDisplayModel()
                 {
                     Id = mes.Id,
@@ -134,11 +182,8 @@ namespace ChatApp.Controllers
                     User = await userManager.FindByIdAsync(mes.SenderID),
                     TruePath = mes.FilePath
                 };
-               if(roomchat.LastMessageID==0)
-                {
-                    roomchat.LastMessageID = mes.Id;
-                    roomChatRepository.Edit(roomchat);
-                }
+
+             
                 await hubContext.Clients.Group(chatRoom.Name).SendAsync("RecieveMessage", DateTime.Now.ToString(), "Messages");
             }
             catch(Exception e)

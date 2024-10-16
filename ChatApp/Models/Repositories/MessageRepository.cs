@@ -10,21 +10,28 @@ namespace ChatApp.Models.Repositories
         {
             dbContext = _dbContext;
         }
-        public Message AddMessage(Message message, int id)
+        public Message AddMessage(Message message, int id,Roomchat roomchat)
         {
             message.Time = DateTime.Now;
             dbContext.Messages.Add(message);
             dbContext.SaveChanges();
-            IEnumerable<string> members = dbContext.ChatRoomMemberships.Where(M => M.RoomId == id).Select(c=>c.UserId);
-            IEnumerable<Roomchat> chats = dbContext.Roomchats.Where(C => members.Contains(C.OwnerId)).Select(X =>  new Roomchat() { Id=X.Id,OwnerId=X.OwnerId,RoomID=id,LastMessageID=message.Id });
+            List<string> members = dbContext.ChatRoomMemberships.Where(M => M.RoomId == id).Select(c=>c.UserId).ToList();
+            List<Roomchat> chats = dbContext.Roomchats.Where(C => members.Contains(C.OwnerId) && C.OwnerId!=roomchat.OwnerId && C.RoomID==id).Select(X =>  new Roomchat() { Id=X.Id,OwnerId=X.OwnerId,RoomID=id,LastMessageID=message.Id }).ToList();
+            roomchat.LastMessageID = message.Id;
+            if(roomchat.Id != 0)
+            { dbContext.Roomchats.Update(roomchat); }
+               
             dbContext.Roomchats.UpdateRange(chats);
             dbContext.SaveChanges();
-            IEnumerable<Roomchat> newChats = members.Where(c => !chats.Select(s => s.OwnerId).Contains(c)).Select(s => new Roomchat() { LastMessageID = message.Id, OwnerId = s, RoomID = id });
+            List<Roomchat> newChats = members.Where(c => c!=roomchat.OwnerId && !chats.Select(s => s.OwnerId).Contains(c)).Select(s => new Roomchat() { LastMessageID = message.Id, OwnerId = s, RoomID = id }).ToList();
+            if(roomchat.Id==0)
+            { newChats.Add(roomchat); }
             dbContext.Roomchats.AddRange(newChats);
             dbContext.SaveChanges();
-            IEnumerable<Roomchat> allChats = chats.Concat(newChats);
-            IEnumerable<ChatMessage> mess = allChats.Select(c => new ChatMessage() { MessageId = message.Id, ChatId = c.Id });
-            dbContext.ChatMessages.AddRange(mess);
+            List<Roomchat> allChats = chats.Concat(newChats).ToList();
+            allChats.Add(roomchat);
+            List<RoomChatMessage> mess = allChats.Select(c => new RoomChatMessage() { MessageId = message.Id, RoomChatId = c.Id }).ToList();
+            dbContext.RoomChatMessages.AddRange(mess);
             dbContext.SaveChanges();
             return message;
 
@@ -47,19 +54,7 @@ namespace ChatApp.Models.Repositories
             }
             return message;
         }
-        private bool addChatMessage(List<Roomchat> chats, int messageId)
-        {
-            try
-            {
-                List<ChatMessage> chatMessages = chats.Select(C => new ChatMessage() { ChatId = C.Id, MessageId = messageId }).ToList();
-                dbContext.ChatMessages.AddRange(chatMessages);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+       
         private bool addChatMessage(List<Chat> chats, int messageIs)
         {
             try
@@ -88,6 +83,7 @@ namespace ChatApp.Models.Repositories
                     {
                         ownerId = chat.ownerId,
                         FriendId = chat.FriendId,
+                        FriendshipId=chat.FriendshipId,
                         LastMessageID = messageId
                     };
                     dbContext.Chats.Add(userChat);
@@ -103,6 +99,7 @@ namespace ChatApp.Models.Repositories
                     {
                         ownerId = chat.FriendId,
                         FriendId = chat.ownerId,
+                        FriendshipId = chat.FriendshipId,
                         LastMessageID = messageId
                     };
                     dbContext.Chats.Add(friendChat);

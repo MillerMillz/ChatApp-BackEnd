@@ -18,6 +18,7 @@ namespace ChatApp.Controllers
         private readonly IChatRoomMembershipRepository roomMembershipRepository;
         private readonly IWebHostEnvironment hostEnvironment;
         private readonly IHubContext<ChatHub> hubContext;
+        
 
         public ChatRoomController(IChatRoomRepository _chatRoomRepository, IChatRoomMembershipRepository _roomMembershipRepository,IWebHostEnvironment _hostEnvironment,IHubContext<ChatHub> hubContext)
         {
@@ -25,6 +26,7 @@ namespace ChatApp.Controllers
             roomMembershipRepository = _roomMembershipRepository;
             hostEnvironment = _hostEnvironment;
             this.hubContext = hubContext;
+          
         }
       
         [HttpGet]

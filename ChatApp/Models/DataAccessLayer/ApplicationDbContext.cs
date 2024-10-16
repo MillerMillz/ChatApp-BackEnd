@@ -18,6 +18,7 @@ namespace ChatApp.Models.DataAccessLayer
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<Invite> Invites { get; set; }
         public DbSet<Roomchat> Roomchats { get; set; }
+        public DbSet<RoomChatMessage> RoomChatMessages { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<StatusView> StatusViews { get; set; }
 

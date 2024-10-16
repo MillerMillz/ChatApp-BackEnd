@@ -6,6 +6,6 @@
         public Chat Delete(int id);
         public Chat Get(int id);
         public List<Chat> Get(string userId);
-        public List<Chat> Get(string userId,string friendId);
+        public Chat Get(string userId,string friendId);
     }
 }
