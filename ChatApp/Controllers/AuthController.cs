@@ -189,6 +189,7 @@ namespace ChatApp.Controllers
             APIResponse<List<string>> response = new();
             try
             {
+                List<ApplicationUser> users = userManager.Users.ToList();
                 response.Response = userManager.Users.Where(u => ids.Contains(u.Id)).Select(u => u.FirstName).ToList();
             }
             catch (Exception e)

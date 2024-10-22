@@ -40,34 +40,27 @@ namespace ChatApp.Hubs
             foreach (string room in roomNames)
             { 
                 await Groups.AddToGroupAsync(Context.ConnectionId, room);
-                await Clients.Group(room).SendAsync("RecieveBotMessage", _botUser, $"{user.FirstName} is online");
-                await Clients.Group(room).SendAsync("RecieveConnectedUsers", _connections.Select(c => c.Value).ToList());
+             
+
             }
+          
             Console.WriteLine("--> Connection Established"+Context.ConnectionId);
             _connections[userId] = Context.ConnectionId;
             await Clients.Client(Context.ConnectionId).SendAsync("RecieveConnID", Context.ConnectionId);
-            List<string> users = _connections.Select(c => c.Value).ToList();
+            List<string> users = _connections.Select(c => c.Key).ToList();
+           
             await Clients.All.SendAsync("RecieveConnectedUsers", users);
             await base.OnConnectedAsync();
         }
         public async override Task OnDisconnectedAsync(Exception exception)
         {
 
-            if (_connections.TryGetValue(Context.ConnectionId, out string userId))
-            {
-                ApplicationUser user = await userManager.FindByIdAsync(userId);
-                _connections.Remove(userId);
-                List<int> roomMembershipsIds = roomMembershipRepository.ListChatRoomMemberships(userId).Select(CRM => CRM.RoomId).ToList();
-                List<string> roomNames = chatRoomRepository.ListChatRooms(roomMembershipsIds).Select(CR => CR.Name).ToList();
-
-                foreach (string room in roomNames)
-                {
-                    await Clients.Group(room).SendAsync("RecieveBotMessage", _botUser, $"{user.FirstName} went offline",DateTime.Now);
-                    await Clients.Group(room).SendAsync("RecieveConnectedUsers", _connections.Select(c => c.Value).ToList());
-                }
-                List<string> users = _connections.Select(c => c.Value).ToList();
-                await Clients.All.SendAsync("RecieveConnectedUsers", users);
-            }
+            var userId = Context.UserIdentifier;
+            _connections.Remove(userId);
+              
+            List<string> users = _connections.Select(c => c.Key).ToList();
+            await Clients.All.SendAsync("RecieveConnectedUsers", users);
+           
             await base.OnDisconnectedAsync(exception);
         }
         public async Task SendMessageAsync(string userId, MessageDisplayModel message)
@@ -92,12 +85,12 @@ namespace ChatApp.Hubs
             string userId = Context.UserIdentifier;
             ApplicationUser user = await userManager.FindByIdAsync(userId);
             await Groups.AddToGroupAsync(Context.ConnectionId, room);
-            await Clients.Group(room).SendAsync("RecieveMessage", _botUser, $"{user.FirstName} has joined {room}");
+           
 
         }
         public async Task ConnectUsers()
         {
-             List<string> users = _connections.Select(c => c.Value).ToList();
+             List<string> users = _connections.Select(c => c.Key).ToList();
             await Clients.Client(Context.ConnectionId).SendAsync("RecieveConnectedUsers", users);
         }
      

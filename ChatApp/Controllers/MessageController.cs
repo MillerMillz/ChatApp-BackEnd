@@ -96,6 +96,7 @@ namespace ChatApp.Controllers
         [HttpPut("{id}/{isGroupChat}")]
         public async Task<APIResponse<List<Message>>> Put(int id,bool isGroupChat)
         {
+          
             APIResponse<List<Message>> response = new();
             try
             {
@@ -123,6 +124,7 @@ namespace ChatApp.Controllers
                 else
                 {
                     await hubContext.Clients.User(chat.FriendId).SendAsync("RecieveMessage", DateTime.Now.ToString(), "Messages");
+                    await hubContext.Clients.User(chat.ownerId).SendAsync("RecieveMessage", DateTime.Now.ToString(), "Messages");
                 }
 
             }
